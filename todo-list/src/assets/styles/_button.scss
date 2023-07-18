@@ -1,0 +1,25 @@
+.btn {
+  display: inline-flex;
+  border: none;
+  cursor: pointer;
+  padding: 8px 16px;
+  align-items: flex-start;
+  border-radius: 8px;
+  color: map-get($grey-scale, white);
+  font-family: "Inter", "Noto Sans TC";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  width: min-content;
+
+  background: map-get($primary, light);
+
+  &:hover {
+    background: map-get($primary, dark);
+  }
+
+  &[mode="disable"] {
+    background: map-get($grey-scale, 200);
+  }
+}

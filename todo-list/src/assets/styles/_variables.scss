@@ -1,0 +1,31 @@
+$primary: (
+  dark: #2e6446,
+  mid: #478965,
+  light: #6fb890,
+  tint: #c5e4d3
+);
+
+$complementary: (
+  alarm: #ba4444,
+  brown: #d69364
+);
+
+$grey-scale: (
+  black: #000000,
+  900: #252525,
+  800: #383838,
+  700: #494949,
+  600: #676767,
+  500: #868686,
+  400: #9a9a9a,
+  300: #bababa,
+  200: #d7d7d7,
+  100: #f2f2f2,
+  white: #ffffff
+);
+
+$colors: (
+  primary: $primary,
+  complementary: $complementary,
+  grey-scale: $grey-scale
+);
