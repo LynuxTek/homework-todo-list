@@ -10,20 +10,39 @@
     </slot>
 
     <div class="count">
-      <h6 class="text-grey-scale-700">20</h6>
+      <h6 class="text-grey-scale-700">{{ completedToDoCount }}</h6>
       <span class="body-8 text-grey-scale-400">件</span>
     </div>
   </div>
 
-  <ToDoListBodyListItem />
+  <div>
+    <ToDoListBodyListItem
+      state="done"
+      v-for="td in completedToDoList"
+      :key="td.id"
+      :id="td.id"
+      :content="td.content"
+      :status="td.status"
+    >
+    </ToDoListBodyListItem>
+  </div>
 </template>
 
 <script setup>
-// import ToDoListBodyListTitle from './ToDoListBodyListTitle.vue'
-import ToDoListBodyListItem from './ToDoListBodyListItem.vue'
+import { computed, watch } from 'vue'
 
 import BaseTitle from './ui/BaseTitle.vue'
 import IconTextBoxCheckOutline from './icons/IconTextBoxCheckOutline.vue'
+import ToDoListBodyListItem from './ToDoListBodyListItem.vue'
+
+import { useToDoStore } from '../stores/todo'
+const store = useToDoStore()
+const completedToDoList = computed(() => store.getCompletedToDos)
+const completedToDoCount = computed(() => completedToDoList.value.length)
+
+watch(completedToDoCount, () => {
+  store.saveToDoList()
+})
 </script>
 
 <style scoped>

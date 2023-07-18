@@ -1,12 +1,12 @@
-<script setup>
-import TheToDoList from './components/TheToDoList.vue'
-</script>
-
 <template>
   <main>
     <TheToDoList />
   </main>
 </template>
+
+<script setup>
+import TheToDoList from './components/TheToDoList.vue'
+</script>
 
 <style scoped>
 main {

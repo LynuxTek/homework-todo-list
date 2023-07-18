@@ -2,7 +2,7 @@
   <div class="two-cols">
     <!-- left -->
     <div class="col">
-      <ToDoListBodyListHandle />
+      <ToDoListBodyListPending />
     </div>
 
     <div class="stroke">
@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import ToDoListBodyListHandle from './ToDoListBodyListHandle.vue'
+import ToDoListBodyListPending from './ToDoListBodyListPending.vue'
 import ToDoListBodyListComplete from './ToDoListBodyListComplete.vue'
 </script>
 

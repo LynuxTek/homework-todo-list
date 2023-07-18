@@ -1,17 +1,17 @@
 <template>
   <div class="checkbox" :state="checkboxState">
-    <input type="checkbox" name="" id="" @click="toggleToDo" />
-    <IconCheckBold class="checked-icon" v-if="isCompleted" />
+    <input type="checkbox" @click="toggleToDo" />
+    <IconCheckBold class="checked-icon" v-if="props.status === 'completed'" />
     <input
       class="body-7"
       type="text"
-      name=""
-      id=""
-      @click="modifyToDo(true)"
-      @blur="modifyToDo(false)"
-      placeholder="List123456"
+      @click="focusInput"
+      @blur="blurInput"
+      @change="modifyToDo"
+      placeholder="Placeholder"
+      v-model="content"
     />
-    <IconTrashCanOutline class="delete-icon text-complementary-alarm" />
+    <IconTrashCanOutline class="delete-icon text-complementary-alarm" @click="deleteToDo" />
   </div>
 </template>
 
@@ -20,17 +20,47 @@ import { ref } from 'vue'
 import IconCheckBold from '../icons/IconCheckBold.vue'
 import IconTrashCanOutline from '../icons/IconTrashCanOutline.vue'
 
-const checkboxState = ref('default')
+const props = defineProps(['state', 'id', 'content', 'status'])
+const emits = defineEmits(['modified'])
 
-const isCompleted = ref(false)
-const toggleToDo = () => {
-  isCompleted.value = !isCompleted.value
-  checkboxState.value = isCompleted.value ? 'done' : 'default'
+import { useToDoStore } from '../../stores/todo'
+const store = useToDoStore()
+
+// [checkbox style]
+const checkboxState = ref(props.state)
+const focusInput = () => {
+  if (checkboxState.value === 'placeholder') return
+  checkboxState.value = 'text'
+}
+const blurInput = () => {
+  checkboxState.value = props.state
 }
 
-const modifyToDo = (isFocus) => {
-  checkboxState.value = isFocus ? 'text' : 'default'
-  checkboxState.value = isCompleted.value ? 'done' : checkboxState.value
+// [update] to-do input update / storage content update
+const content = ref(props.content)
+const modifyToDo = () => {
+  if (checkboxState.value === 'placeholder') updateInputContent()
+  else updateToDoContent()
+}
+const updateInputContent = () => {
+  emits('modified', content.value)
+}
+const updateToDoContent = () => {
+  store.updateToDoContent({
+    id: props.id,
+    content: content.value,
+    status: props.status
+  })
+}
+
+// [delete]
+const deleteToDo = () => {
+  store.deleteToDo({ id: props.id })
+}
+
+// [toggle complete]
+const toggleToDo = () => {
+  store.toggleToDo({ id: props.id })
 }
 </script>
 
