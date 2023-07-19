@@ -4,8 +4,8 @@
       <BaseTitle>My To Do List</BaseTitle>
 
       <!-- progress -->
-      <div class="progress">
-        <span class="subtitle-2">25%</span>
+      <div class="progress" :style="{ background: progressStyle }">
+        <div class="progress-text subtitle-2">{{ Math.floor(progress * 100) }}%</div>
       </div>
     </div>
 
@@ -14,7 +14,21 @@
 </template>
 
 <script setup>
+import { computed, ref } from 'vue'
 import BaseTitle from '@/components/ui/BaseTitle.vue'
+
+import { useToDoStore } from '@/stores/todo'
+const store = useToDoStore()
+
+const pendingToDoCount = computed(() => store.getPendingToDoCount)
+const completedToDoCount = computed(() => store.getCompletedToDoCount)
+
+const progress = computed(
+  () => completedToDoCount.value / (pendingToDoCount.value + completedToDoCount.value)
+)
+const progressStyle = computed(
+  () => `conic-gradient(#6fb890 ${progress.value * 360}deg, #ededed 0deg)`
+)
 </script>
 
 <style lang="scss" scoped>
@@ -44,7 +58,6 @@ import BaseTitle from '@/components/ui/BaseTitle.vue'
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background-color: rgb(184, 184, 184);
   z-index: 1;
   display: flex;
   justify-content: center;
@@ -62,16 +75,8 @@ import BaseTitle from '@/components/ui/BaseTitle.vue'
     z-index: 2;
   }
 
-  &::after {
-    content: '';
-    position: absolute;
-    width: 56px;
-    height: 56px;
-    left: 0;
-    top: 0;
-    border-radius: 50%;
-    background-color: #6fb890;
-    z-index: 2;
+  .progress-text {
+    z-index: 3;
   }
 }
 </style>

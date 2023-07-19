@@ -27,6 +27,8 @@ export const useToDoStore = defineStore('todo', () => {
   // [getters] return pending/completed todos
   const getPendingToDos = computed(() => toDoList.value.filter((td) => td.status === 'pending'))
   const getCompletedToDos = computed(() => toDoList.value.filter((td) => td.status === 'completed'))
+  const getPendingToDoCount = computed(() => getPendingToDos.value.length)
+  const getCompletedToDoCount = computed(() => getCompletedToDos.value.length)
 
   // [actions] add new todo
   function addToDo(payload) {
@@ -85,8 +87,10 @@ export const useToDoStore = defineStore('todo', () => {
   // ---------------------------------------------------------
 
   return {
-    getCompletedToDos,
     getPendingToDos,
+    getCompletedToDos,
+    getPendingToDoCount,
+    getCompletedToDoCount,
 
     addToDo,
     deleteToDo,

@@ -46,7 +46,7 @@ import { useToDoStore } from '@/stores/todo'
 const store = useToDoStore()
 
 const pendingToDoList = computed(() => store.getPendingToDos)
-const pendingToDoCount = computed(() => pendingToDoList.value.length)
+const pendingToDoCount = computed(() => store.getPendingToDoCount)
 
 // save to localStorage when todo list updated
 watch(pendingToDoList, () => {

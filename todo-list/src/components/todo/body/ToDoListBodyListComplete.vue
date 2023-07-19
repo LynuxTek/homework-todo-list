@@ -46,7 +46,7 @@ import { useToDoStore } from '@/stores/todo'
 const store = useToDoStore()
 
 const completedToDoList = computed(() => store.getCompletedToDos)
-const completedToDoCount = computed(() => completedToDoList.value.length)
+const completedToDoCount = computed(() => store.getCompletedToDoCount)
 
 // update localStorage if completedToDoList
 watch(completedToDoList, () => {
