@@ -17,7 +17,7 @@ const store = useToDoStore()
 // input todo content
 const content = ref('')
 
-// update input content
+// update input content (from BaseCheckbox, will emit 'modified' event @blur)
 const updateContent = (payload) => {
   content.value = payload
 }
