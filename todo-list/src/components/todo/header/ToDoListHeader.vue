@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import BaseTitle from '@/components/ui/BaseTitle.vue'
 
 import { useToDoStore } from '@/stores/todo'
