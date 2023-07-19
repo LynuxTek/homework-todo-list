@@ -14,7 +14,7 @@
   </div>
 
   <div
-    class="list-container"
+    class="list-body"
     data-role="drag-drop-container"
     @drop="dropped"
     @dragenter="dragEnter"
