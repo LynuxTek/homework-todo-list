@@ -17,6 +17,10 @@ export const useToDoStore = defineStore('todo', () => {
   // - content: String
   // - status: 'pending' / 'completed'
 
+  // ---------------------------------------------------------
+
+  // basic
+
   // [state] todo list (array)
   const toDoList = ref(JSON.parse(localStorage.getItem(TO_DO_LIST_STORAGE_KEY)) ?? [])
 
@@ -43,21 +47,42 @@ export const useToDoStore = defineStore('todo', () => {
     todo.value.content = payload.content
   }
 
-  // [actions] toggle todo
-  function toggleToDo(payload) {
-    const todo = ref(toDoList.value.find((td) => td.id === payload.id))
-    todo.value.status = todo.value.status === 'pending' ? 'completed' : 'pending'
-  }
-
+  // [actions] toggle/set todo status
   const setToDoStatus = (payload) => {
     const todo = ref(toDoList.value.find((td) => td.id === payload.id))
-    todo.value.status = payload.status
+
+    // toggle status from checkbox
+    if (payload.type === 'toggle')
+      todo.value.status = todo.value.status === 'pending' ? 'completed' : 'pending'
+    // directly drag item to set status
+    else if (payload.type === 'set') todo.value.status = payload.status
   }
+
+  // ---------------------------------------------------------
+
+  // for dragging recognization
+
+  // [state] current dragging todo id
+  const currentDragToDoId = ref('')
+
+  // [getters] return current dragging todo id
+  const getCurrentDragToDoId = computed(() => currentDragToDoId)
+
+  // [actions] set current dragging id
+  const setCurrentDragToDoId = (payload) => {
+    currentDragToDoId.value = payload.id
+  }
+
+  // ---------------------------------------------------------
+
+  // for saving date to localStorage
 
   // [actions] save to localStorage
   function saveToDoList() {
     localStorage.setItem(TO_DO_LIST_STORAGE_KEY, JSON.stringify(toDoList.value))
   }
+
+  // ---------------------------------------------------------
 
   return {
     getCompletedToDos,
@@ -66,8 +91,10 @@ export const useToDoStore = defineStore('todo', () => {
     addToDo,
     deleteToDo,
     updateToDoContent,
-    toggleToDo,
     setToDoStatus,
+
+    getCurrentDragToDoId,
+    setCurrentDragToDoId,
 
     saveToDoList
   }

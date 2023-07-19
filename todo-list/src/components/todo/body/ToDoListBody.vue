@@ -29,10 +29,12 @@ import ToDoListBodyListComplete from '@/components/todo/body/ToDoListBodyListCom
   width: 100%;
   overflow: hidden;
 }
+
 .col {
   width: 100%;
   padding-bottom: 28px;
 }
+
 .stroke {
   height: 100%;
   border: 1px dashed map-get($complementary, brown);

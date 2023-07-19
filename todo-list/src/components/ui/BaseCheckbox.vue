@@ -6,23 +6,23 @@
     :draggable="checkboxState !== 'placeholder'"
     @dragstart="dragStart"
   >
-    <input type="checkbox" @click="toggleToDo" draggable="false" />
-    <IconCheckBold class="checked-icon" v-if="props.status === 'completed'" draggable="false" />
+    <!-- todo checkbox -->
+    <input type="checkbox" @click="toggleToDo" />
+    <IconCheckBold class="checked-icon" v-if="props.status === 'completed'" />
+
+    <!-- input field -->
     <input
       v-model="content"
       class="body-7"
       type="text"
       placeholder="Placeholder"
-      draggable="false"
       @click="focusInput"
       @blur="blurInput"
       @change="updateToDo"
     />
-    <IconTrashCanOutline
-      class="delete-icon text-complementary-alarm"
-      @click="deleteToDo"
-      draggable="false"
-    />
+
+    <!-- trashcan icon to delete todo -->
+    <IconTrashCanOutline class="delete-icon text-complementary-alarm" @click="deleteToDo" />
   </div>
 </template>
 
@@ -36,7 +36,7 @@ import { useToDoStore } from '@/stores/todo'
 const store = useToDoStore()
 
 const props = defineProps(['state', 'id', 'content', 'status'])
-const emits = defineEmits(['modified'])
+const emits = defineEmits(['modified', 'dragItem'])
 
 // [checkbox style]
 const checkboxState = ref(props.state)
@@ -48,22 +48,23 @@ const blurInput = () => {
   checkboxState.value = props.state
 }
 
-// [update] to-do input update / storage content update
+// [update] update content when blur
 const content = ref(props.content)
 const updateToDo = () => {
   if (checkboxState.value === 'placeholder') updateInputContent()
   else updateToDoContent()
 }
+// input content update (for adding, submit )
 const updateInputContent = () => {
   emits('modified', content.value)
 }
+// to-do content update in pinia store
 const updateToDoContent = () => {
   store.updateToDoContent({
     id: props.id,
-    content: content.value,
-    status: props.status
+    content: content.value
   })
-  store.saveToDoList()
+  store.saveToDoList() // force localStorage update
 }
 
 // [delete]
@@ -73,10 +74,12 @@ const deleteToDo = () => {
 
 // [toggle complete]
 const toggleToDo = () => {
-  store.toggleToDo({ id: props.id })
+  store.setToDoStatus({ id: props.id, type: 'toggle' })
 }
 
+// [drag event] record current dragging item id
 const dragStart = () => {
+  store.setCurrentDragToDoId({ id: props.id })
   console.log('dragStart')
 }
 </script>

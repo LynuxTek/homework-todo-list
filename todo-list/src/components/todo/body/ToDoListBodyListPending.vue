@@ -1,38 +1,40 @@
 <template>
-  <div class="list-title">
-    <BaseTitle color="primary-light">
-      <template #icon>
-        <component :is="IconListBoxOutline"></component>
-      </template>
-      待辦事項
-    </BaseTitle>
+  <div class="wrapper">
+    <div class="list-title">
+      <BaseTitle color="primary-light">
+        <template #icon>
+          <component :is="IconListBoxOutline"></component>
+        </template>
+        待辦事項
+      </BaseTitle>
 
-    <div class="count">
-      <h6 class="text-primary-dark">{{ pendingToDoCount }}</h6>
-      <span class="body-8 text-primary-light">件</span>
+      <div class="count">
+        <h6 class="text-primary-dark">{{ pendingToDoCount }}</h6>
+        <span class="body-8 text-primary-light">件</span>
+      </div>
     </div>
-  </div>
 
-  <div
-    class="list-body"
-    data-role="drag-drop-container"
-    @drop="dropped"
-    @dragenter="dragEnter"
-    @dragover="dragOver"
-  >
-    <ToDoListBodyListItem
-      v-for="td in pendingToDoList"
-      :key="td.id"
-      :id="td.id"
-      :content="td.content"
-      :status="td.status"
+    <div
+      class="list-body"
+      data-role="drag-drop-container"
+      @drop="dropped"
+      @dragenter="dragEnter"
+      @dragover="dragOver"
     >
-    </ToDoListBodyListItem>
+      <ToDoListBodyListItem
+        v-for="td in pendingToDoList"
+        :key="td.id"
+        :id="td.id"
+        :content="td.content"
+        :status="td.status"
+      >
+      </ToDoListBodyListItem>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { computed, watch } from 'vue'
 
 // list title
 import BaseTitle from '@/components/ui/BaseTitle.vue'
@@ -46,40 +48,53 @@ const store = useToDoStore()
 const pendingToDoList = computed(() => store.getPendingToDos)
 const pendingToDoCount = computed(() => pendingToDoList.value.length)
 
+// save to localStorage when todo list updated
 watch(pendingToDoList, () => {
   store.saveToDoList()
 })
 
-const dragStatus = ref('completed')
+// drag event
 const cancelDefault = (e) => {
   e.preventDefault()
   e.stopPropagation()
   return false
 }
 const dropped = (e) => {
-  console.log('dropped')
   cancelDefault(e)
-  console.log(e)
-  console.log(e.target.id)
-  // store.setToDoStatus({ id: e.target.id, status: dragStatus.value })
+  store.setToDoStatus({
+    id: store.getCurrentDragToDoId.value,
+    status: 'pending',
+    type: 'set'
+  })
 }
 const dragEnter = (e) => {
-  console.log('dragEnter')
-  dragStatus.value = 'completed'
   cancelDefault(e)
 }
 const dragOver = (e) => {
-  console.log('dragOver')
   cancelDefault(e)
 }
 </script>
 
 <style scoped>
+.wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .list-title {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
+}
+
+.list-body {
+  flex-grow: 1;
+  overflow: scroll;
+}
+::-webkit-scrollbar {
+  display: none;
 }
 
 .count {

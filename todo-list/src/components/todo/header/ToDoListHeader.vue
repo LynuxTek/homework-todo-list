@@ -1,5 +1,5 @@
 <template>
-  <div class="header-wrapper">
+  <div class="row">
     <div class="header">
       <BaseTitle>My To Do List</BaseTitle>
 
@@ -20,7 +20,7 @@ import BaseTitle from '@/components/ui/BaseTitle.vue'
 <style lang="scss" scoped>
 @import '@/assets/styles/variables';
 
-.header-wrapper {
+.row {
   width: 100%;
 }
 
