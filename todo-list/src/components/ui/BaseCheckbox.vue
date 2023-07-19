@@ -38,7 +38,7 @@ const store = useToDoStore()
 const props = defineProps(['state', 'id', 'content', 'status'])
 const emits = defineEmits(['modified', 'dragItem'])
 
-// [checkbox style]
+// [checkbox state] specify checkbox state (will change to corresponding css style)
 const checkboxState = ref(props.state)
 const focusInput = () => {
   if (checkboxState.value === 'placeholder') return
@@ -54,7 +54,7 @@ const updateToDo = () => {
   if (checkboxState.value === 'placeholder') updateInputContent()
   else updateToDoContent()
 }
-// input content update (for adding, submit )
+// input content update (for to-do adding, just update input text, not submit yet)
 const updateInputContent = () => {
   emits('modified', content.value)
 }
