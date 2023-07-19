@@ -1,23 +1,40 @@
 <template>
-  <div class="header">
-    <BaseTitle>My To Do List</BaseTitle>
-    <!-- progress -->
-    <div class="progress">
-      <span class="subtitle-2">25%</span>
+  <div class="header-wrapper">
+    <div class="header">
+      <BaseTitle>My To Do List</BaseTitle>
+
+      <!-- progress -->
+      <div class="progress">
+        <span class="subtitle-2">25%</span>
+      </div>
     </div>
+
+    <div class="stroke"></div>
   </div>
 </template>
 
 <script setup>
-import BaseTitle from './ui/BaseTitle.vue'
+import BaseTitle from '@/components/ui/BaseTitle.vue'
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '@/assets/styles/variables';
+
+.header-wrapper {
+  width: 100%;
+}
+
 .header {
   width: 100%;
   text-align: center;
   margin-top: 28px;
   margin-bottom: 34px;
+}
+
+.stroke {
+  width: 100%;
+  border: 1px solid map-get($complementary, brown);
+  border-radius: 1px;
 }
 
 .progress {

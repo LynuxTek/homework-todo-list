@@ -1,8 +1,8 @@
-@import 'reset';
-@import 'variables';
+@import "reset";
+@import "variables";
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
 
 /* html */
 *,
@@ -17,7 +17,7 @@ body {
 }
 
 body {
-  font-family: 'Noto Sans TC';
+  font-family: "Noto Sans TC";
   background-color: map-get($grey-scale, 200);
 }
 
@@ -25,8 +25,8 @@ body {
 @mixin title($font-size) {
   font-style: normal;
   font-weight: 700;
-  line-height: 140%;
-  letter-spacing: calc($font-size * 0.01);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
   font-size: $font-size;
 }
 h1 {
@@ -94,17 +94,14 @@ small {
 }
 
 /* button */
-@import 'button';
+@import "button";
 
 /* color */
 /* text & back-ground color from 'colors' */
 @each $group-name, $group in $colors {
   @each $name, $color in $group {
-    .text-#{$group-name}-#{$name} {
+    .text-#{$group-name}-#{"" + $name} {
       color: $color;
-    }
-    .bg-#{$group-name}-#{$name} {
-      background-color: $color;
     }
   }
 }

@@ -17,8 +17,8 @@
 </template>
 
 <script setup>
-import BaseTitle from './ui/BaseTitle.vue'
-import IconListBoxOutline from './icons/IconListBoxOutline.vue'
+import BaseTitle from '@/components/ui/BaseTitle.vue'
+import IconListBoxOutline from '@/components/icons/IconListBoxOutline.vue'
 </script>
 
 <style scoped>

@@ -3,5 +3,5 @@
 </template>
 
 <script setup>
-import BaseCheckbox from './ui/BaseCheckbox.vue'
+import BaseCheckbox from '@/components/ui/BaseCheckbox.vue'
 </script>

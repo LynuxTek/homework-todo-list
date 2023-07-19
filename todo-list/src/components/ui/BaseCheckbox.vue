@@ -1,30 +1,42 @@
 <template>
-  <div class="checkbox" :state="checkboxState">
-    <input type="checkbox" @click="toggleToDo" />
-    <IconCheckBold class="checked-icon" v-if="props.status === 'completed'" />
+  <div
+    class="checkbox"
+    :id="props.id"
+    :state="checkboxState"
+    :draggable="checkboxState !== 'placeholder'"
+    @dragstart="dragStart"
+  >
+    <input type="checkbox" @click="toggleToDo" draggable="false" />
+    <IconCheckBold class="checked-icon" v-if="props.status === 'completed'" draggable="false" />
     <input
+      v-model="content"
       class="body-7"
       type="text"
+      placeholder="Placeholder"
+      draggable="false"
       @click="focusInput"
       @blur="blurInput"
-      @change="modifyToDo"
-      placeholder="Placeholder"
-      v-model="content"
+      @change="updateToDo"
     />
-    <IconTrashCanOutline class="delete-icon text-complementary-alarm" @click="deleteToDo" />
+    <IconTrashCanOutline
+      class="delete-icon text-complementary-alarm"
+      @click="deleteToDo"
+      draggable="false"
+    />
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import IconCheckBold from '../icons/IconCheckBold.vue'
-import IconTrashCanOutline from '../icons/IconTrashCanOutline.vue'
+
+import IconCheckBold from '@/components/icons/IconCheckBold.vue'
+import IconTrashCanOutline from '@/components/icons/IconTrashCanOutline.vue'
+
+import { useToDoStore } from '@/stores/todo'
+const store = useToDoStore()
 
 const props = defineProps(['state', 'id', 'content', 'status'])
 const emits = defineEmits(['modified'])
-
-import { useToDoStore } from '../../stores/todo'
-const store = useToDoStore()
 
 // [checkbox style]
 const checkboxState = ref(props.state)
@@ -38,7 +50,7 @@ const blurInput = () => {
 
 // [update] to-do input update / storage content update
 const content = ref(props.content)
-const modifyToDo = () => {
+const updateToDo = () => {
   if (checkboxState.value === 'placeholder') updateInputContent()
   else updateToDoContent()
 }
@@ -51,6 +63,7 @@ const updateToDoContent = () => {
     content: content.value,
     status: props.status
   })
+  store.saveToDoList()
 }
 
 // [delete]
@@ -62,10 +75,14 @@ const deleteToDo = () => {
 const toggleToDo = () => {
   store.toggleToDo({ id: props.id })
 }
+
+const dragStart = () => {
+  console.log('dragStart')
+}
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/styles/variables';
+@import '@/assets/styles/variables';
 
 .checkbox {
   display: flex;
@@ -216,6 +233,13 @@ const toggleToDo = () => {
     .delete-icon {
       color: map-get($grey-scale, white);
     }
+  }
+
+  &[draggable='true'] {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
   }
 }
 

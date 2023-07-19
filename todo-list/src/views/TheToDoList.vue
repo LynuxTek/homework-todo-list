@@ -3,9 +3,6 @@
     <!-- header -->
     <ToDoListHeader />
 
-    <!-- stroke -->
-    <BaseStroke />
-
     <!-- add -->
     <ToDoListAddItem />
 
@@ -15,10 +12,9 @@
 </template>
 
 <script setup>
-import ToDoListHeader from './ToDoListHeader.vue'
-import ToDoListAddItem from './ToDoListAddItem.vue'
-import ToDoListBody from './ToDoListBody.vue'
-import BaseStroke from './ui/BaseStroke.vue'
+import ToDoListHeader from '@/components/todo/header/ToDoListHeader.vue'
+import ToDoListAddItem from '@/components/todo/add/ToDoListAddItem.vue'
+import ToDoListBody from '@/components/todo/body/ToDoListBody.vue'
 </script>
 
 <style scoped>

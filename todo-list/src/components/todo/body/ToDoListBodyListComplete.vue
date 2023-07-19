@@ -1,0 +1,96 @@
+<template>
+  <div class="list-title">
+    <BaseTitle color="grey-scale-400">
+      <template #icon>
+        <component :is="IconTextBoxCheckOutline"></component>
+      </template>
+      完成事項
+    </BaseTitle>
+
+    <div class="count">
+      <h6 class="text-grey-scale-700">{{ completedToDoCount }}</h6>
+      <span class="body-8 text-grey-scale-400">件</span>
+    </div>
+  </div>
+
+  <div
+    class="list-container"
+    data-role="drag-drop-container"
+    @drop="dropped"
+    @dragenter="dragEnter"
+    @dragover="dragOver"
+  >
+    <ToDoListBodyListItem
+      state="done"
+      v-for="td in completedToDoList"
+      :key="td.id"
+      :id="td.id"
+      :content="td.content"
+      :status="td.status"
+    >
+    </ToDoListBodyListItem>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed, watch } from 'vue'
+
+import BaseTitle from '@/components/ui/BaseTitle.vue'
+
+import IconTextBoxCheckOutline from '@/components/icons/IconTextBoxCheckOutline.vue'
+import ToDoListBodyListItem from '@/components/todo/body/ToDoListBodyListItem.vue'
+
+import { useToDoStore } from '@/stores/todo'
+const store = useToDoStore()
+
+const completedToDoList = computed(() => store.getCompletedToDos)
+const completedToDoCount = computed(() => completedToDoList.value.length)
+
+// update localStorage if completedToDoList
+watch(completedToDoList, () => {
+  store.saveToDoList()
+})
+
+const dragStatus = ref('completed')
+const cancelDefault = (e) => {
+  e.preventDefault()
+  e.stopPropagation()
+  return false
+}
+const dropped = (e) => {
+  console.log('dropped')
+  cancelDefault(e)
+  console.log(e)
+  console.log(e.target.id)
+  // store.setToDoStatus({ id: e.target.id, status: dragStatus.value })
+}
+const dragEnter = (e) => {
+  console.log('dragEnter')
+  dragStatus.value = 'completed'
+  cancelDefault(e)
+}
+const dragOver = (e) => {
+  console.log('dragOver')
+  cancelDefault(e)
+}
+</script>
+
+<style scoped>
+.list-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.list-container {
+  height: 100%;
+}
+
+.count {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: 4px;
+}
+</style>

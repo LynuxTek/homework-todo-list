@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import TheToDoList from './components/TheToDoList.vue'
+import TheToDoList from '@/views/TheToDoList.vue'
 </script>
 
 <style scoped>
