@@ -6,7 +6,7 @@
   align-items: flex-start;
   border-radius: 8px;
   color: map-get($grey-scale, white);
-  font-family: "Inter", "Noto Sans TC";
+  font-family: 'Inter', 'Noto Sans TC';
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
@@ -19,7 +19,7 @@
     background: map-get($primary, dark);
   }
 
-  &[mode="disable"] {
+  &[mode='disable'] {
     background: map-get($grey-scale, 200);
   }
 }

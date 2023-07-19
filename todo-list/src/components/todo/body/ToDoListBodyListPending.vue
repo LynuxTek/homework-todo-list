@@ -34,8 +34,10 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 
+// list title
 import BaseTitle from '@/components/ui/BaseTitle.vue'
 import IconListBoxOutline from '@/components/icons/IconListBoxOutline.vue'
+// list body
 import ToDoListBodyListItem from '@/components/todo/body/ToDoListBodyListItem.vue'
 
 import { useToDoStore } from '@/stores/todo'
