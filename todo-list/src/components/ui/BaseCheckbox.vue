@@ -85,7 +85,6 @@ const toggleToDo = () => {
 // [drag event] record current dragging item id
 const dragStart = () => {
   store.setCurrentDragToDoId({ id: props.id })
-  console.log('dragStart')
 }
 </script>
 

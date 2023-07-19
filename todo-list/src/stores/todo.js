@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 
 import uniqid from 'uniqid'
 
-import { TO_DO_LIST_STORAGE_KEY } from '../const/localStorageKeys'
+import localStorageKeys from '@/const/localStorageKeys'
 
 // [pinia]
 // ref -> state
@@ -22,7 +22,9 @@ export const useToDoStore = defineStore('todo', () => {
   // basic
 
   // [state] todo list (array)
-  const toDoList = ref(JSON.parse(localStorage.getItem(TO_DO_LIST_STORAGE_KEY)) ?? [])
+  const toDoList = ref(
+    JSON.parse(localStorage.getItem(localStorageKeys.TO_DO_LIST_STORAGE_KEY)) ?? []
+  )
 
   // [getters] return pending/completed todos
   const getPendingToDos = computed(() => toDoList.value.filter((td) => td.status === 'pending'))
@@ -81,7 +83,7 @@ export const useToDoStore = defineStore('todo', () => {
 
   // [actions] save to localStorage
   function saveToDoList() {
-    localStorage.setItem(TO_DO_LIST_STORAGE_KEY, JSON.stringify(toDoList.value))
+    localStorage.setItem(localStorageKeys.TO_DO_LIST_STORAGE_KEY, JSON.stringify(toDoList.value))
   }
 
   // ---------------------------------------------------------
