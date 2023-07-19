@@ -1,4 +1,6 @@
 <template>
+  <!-- packaging svg to component can apply different color from assign 'color' style -->
+  <!-- using img src cannot change the icon color afterward (assign 'color' style also not working') -->
   <svg
     class="icon"
     xmlns="http://www.w3.org/2000/svg"
