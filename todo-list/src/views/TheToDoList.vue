@@ -22,9 +22,9 @@ import ToDoListBody from '@/components/todo/body/ToDoListBody.vue'
   position: relative;
   width: 461px;
   height: 511px;
-  border-radius: 16px;
+  border-radius: 1rem;
   background: #fff;
-  padding: 0 24px;
+  padding: 0 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
