@@ -20,7 +20,7 @@ import ToDoListBodyListComplete from '@/components/todo/body/ToDoListBodyListCom
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/variables';
+@use '@/assets/styles/variables' as *;
 
 .row {
   display: flex;
