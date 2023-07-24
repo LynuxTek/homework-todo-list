@@ -1,10 +1,10 @@
 <template>
   <div class="row">
     <div class="header">
-      <BaseTitle>My To Do List</BaseTitle>
+      <BaseTitle> My To Do List </BaseTitle>
 
       <!-- progress -->
-      <div class="progress" :style="{ background: progressStyle }">
+      <div class="progress">
         <div class="progress-text subtitle-2">{{ Math.floor(progress * 100) }}%</div>
       </div>
     </div>
@@ -23,16 +23,18 @@ const store = useToDoStore()
 const pendingToDoCount = computed(() => store.getPendingToDoCount)
 const completedToDoCount = computed(() => store.getCompletedToDoCount)
 
-const progress = computed(
-  () => completedToDoCount.value / (pendingToDoCount.value + completedToDoCount.value)
-)
-const progressStyle = computed(
-  () => `conic-gradient(#6fb890 ${progress.value * 360}deg, #ededed 0deg)`
-)
+const progress = computed(() => {
+  const totalCount = pendingToDoCount.value + completedToDoCount.value
+  if (totalCount === 0) return 0
+  return completedToDoCount.value / totalCount
+})
+const progressDeg = computed(() => {
+  return `${progress.value * 360}deg`
+})
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/variables';
+@use '@/assets/styles/variables' as *;
 
 .row {
   width: 100%;
@@ -57,6 +59,7 @@ const progressStyle = computed(
   top: 16px;
   width: 56px;
   height: 56px;
+  background: conic-gradient(#6fb890 v-bind(progressDeg), #ededed 0deg);
   border-radius: 50%;
   z-index: 1;
   display: flex;
