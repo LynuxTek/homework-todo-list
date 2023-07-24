@@ -3,7 +3,7 @@
     <div class="list-title">
       <BaseTitle color="grey-scale-400">
         <template #icon>
-          <component :is="IconTextBoxCheckOutline"></component>
+          <IconTextBoxCheckOutline />
         </template>
         完成事項
       </BaseTitle>
@@ -23,11 +23,9 @@
     >
       <ToDoListBodyListItem
         state="done"
-        v-for="td in completedToDoList"
-        :key="td.id"
-        :id="td.id"
-        :content="td.content"
-        :status="td.status"
+        v-for="toDoItem in completedToDoList"
+        :key="toDoItem.id"
+        :to-do-item="toDoItem"
       >
       </ToDoListBodyListItem>
     </div>
@@ -35,7 +33,7 @@
 </template>
 
 <script setup>
-import { computed, watch } from 'vue'
+import { computed } from 'vue'
 
 import BaseTitle from '@/components/ui/BaseTitle.vue'
 
@@ -48,11 +46,7 @@ const store = useToDoStore()
 const completedToDoList = computed(() => store.getCompletedToDos)
 const completedToDoCount = computed(() => store.getCompletedToDoCount)
 
-// update localStorage if completedToDoList
-watch(completedToDoList, () => {
-  store.saveToDoList()
-})
-
+// drag event
 const cancelDefault = (e) => {
   e.preventDefault()
   e.stopPropagation()

@@ -3,7 +3,7 @@
     <div class="list-title">
       <BaseTitle color="primary-light">
         <template #icon>
-          <component :is="IconListBoxOutline"></component>
+          <IconListBoxOutline />
         </template>
         待辦事項
       </BaseTitle>
@@ -22,11 +22,9 @@
       @dragover="dragOver"
     >
       <ToDoListBodyListItem
-        v-for="td in pendingToDoList"
-        :key="td.id"
-        :id="td.id"
-        :content="td.content"
-        :status="td.status"
+        v-for="toDoItem in pendingToDoList"
+        :key="toDoItem.id"
+        :toDoItem="toDoItem"
       >
       </ToDoListBodyListItem>
     </div>
@@ -34,7 +32,7 @@
 </template>
 
 <script setup>
-import { computed, watch } from 'vue'
+import { computed } from 'vue'
 
 // list title
 import BaseTitle from '@/components/ui/BaseTitle.vue'
@@ -47,11 +45,6 @@ const store = useToDoStore()
 
 const pendingToDoList = computed(() => store.getPendingToDos)
 const pendingToDoCount = computed(() => store.getPendingToDoCount)
-
-// save to localStorage when todo list updated
-watch(pendingToDoList, () => {
-  store.saveToDoList()
-})
 
 // drag event
 const cancelDefault = (e) => {
