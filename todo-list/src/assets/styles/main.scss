@@ -1,8 +1,15 @@
-@import 'reset';
-@import 'variables';
+@use "reset";
+@use "variables" as *;
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+/* partials */
+@use "button";
+@use "todoitem";
+
+/* google font */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+
+/* color define */
 
 /* html */
 *,
@@ -17,90 +24,103 @@ body {
 }
 
 body {
-  font-family: 'Noto Sans TC';
+  font-family: "Noto Sans TC";
   background-color: map-get($grey-scale, 200);
 }
 
 /* title */
-@mixin title($font-size) {
+%title {
   font-style: normal;
   font-weight: 700;
   line-height: 1.4;
   letter-spacing: 0.01em;
-  font-size: $font-size;
 }
 h1 {
-  @include title(40px);
+  @extend %title;
+  font-size: 40px;
 }
 h2 {
-  @include title(32px);
+  @extend %title;
+  font-size: 32px;
 }
 h3 {
-  @include title(28px);
+  @extend %title;
+  font-size: 28px;
 }
 h4 {
-  @include title(24px);
+  @extend %title;
+  font-size: 24px;
 }
 h5 {
-  @include title(20px);
+  @extend %title;
+  font-size: 20px;
 }
 h6 {
-  @include title(18px);
+  @extend %title;
+  font-size: 18px;
 }
 .subtitle-1 {
-  @include title(16px);
+  @extend %title;
+  font-size: 16px;
 }
 .subtitle-2 {
-  @include title(14px);
+  @extend %title;
+  font-size: 14px;
 }
 caption {
-  @include title(12px);
+  @extend %title;
+  font-size: 12px;
 }
 small {
-  @include title(11px);
+  @extend %title;
+  font-size: 11px;
 }
 
 /* body */
-@mixin body($font-size) {
+%body {
   font-style: normal;
   font-weight: 400;
-  line-height: 140%;
-  letter-spacing: calc($font-size * 0.01);
-  font-size: $font-size;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
 }
 .body-1 {
-  @include body(28px);
+  @extend %body;
+  font-size: 28px;
 }
 .body-2 {
-  @include body(24px);
+  @extend %body;
+  font-size: 24px;
 }
 .body-3 {
-  @include body(20px);
+  @extend %body;
+  font-size: 20px;
 }
 .body-4 {
-  @include body(18px);
+  @extend %body;
+  font-size: 18px;
 }
 .body-5 {
-  @include body(16px);
+  @extend %body;
+  font-size: 16px;
 }
 .body-6 {
-  @include body(14px);
+  @extend %body;
+  font-size: 14px;
 }
 .body-7 {
-  @include body(12px);
+  @extend %body;
+  font-size: 12px;
 }
 .body-8 {
-  @include body(11px);
+  @extend %body;
+  font-size: 11px;
 }
 
-/* button */
-@import 'button';
-
 /* color */
-/* text & back-ground color from 'colors' */
+/* text color class from 'colors' */
 @each $group-name, $group in $colors {
   @each $name, $color in $group {
-    .text-#{$group-name}-#{'' + $name} {
+    .text-#{$group-name}-#{"" + $name} {
       color: $color;
     }
   }

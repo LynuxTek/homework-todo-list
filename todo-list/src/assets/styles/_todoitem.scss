@@ -1,25 +1,18 @@
-.checkbox {
+@use "variables" as *;
+
+.to-do-item {
   display: inline-flex;
   position: relative;
-  width: 189px;
   height: min-content;
-  padding: 8px;
+  padding: 0.5rem;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
   border: 1px solid transparent;
-  border-radius: 4px;
+  border-radius: 0.25rem;
   box-shadow: none;
   text-decoration: none;
 
-  .checked-icon {
-    position: absolute;
-  }
-
-  .delete-icon {
-    color: map-get($complementary, alarm);
-  }
-
-  input[type='checkbox'] {
+  .to-do-item-checkbox {
     position: relative;
     width: 12px;
     height: 12px;
@@ -34,7 +27,7 @@
       position: absolute;
       top: 0;
       left: 0;
-      content: '';
+      content: "";
       display: inline-block;
       width: 12px;
       height: 12px;
@@ -43,7 +36,7 @@
       z-index: 10;
     }
   }
-  input[type='text'] {
+  .to-do-item-input {
     width: 100%;
     min-height: 17px;
     outline: none;
@@ -53,11 +46,11 @@
   }
 
   /* default */
-  &[state='default'] {
-    input[type='checkbox']::before {
+  &[state="default"] {
+    .to-do-item-checkbox::before {
       border-color: map-get($grey-scale, 600);
     }
-    input[type='text'] {
+    .to-do-item-input {
       color: map-get($grey-scale, 600);
       outline: none;
       border: none;
@@ -65,12 +58,12 @@
   }
 
   /* checked */
-  &[state='checked'] {
+  &[state="checked"] {
     color: map-get($primary, dark);
-    input[type='checkbox']::before {
+    .to-do-item-checkbox::before {
       border-color: map-get($primary, dark);
     }
-    input[type='text'] {
+    .to-do-item-input {
       color: map-get($primary, dark);
       outline: none;
       border: none;
@@ -78,43 +71,43 @@
   }
 
   /* done */
-  &[state='done'] {
+  &[state="done"] {
     color: map-get($grey-scale, 300);
-    input[type='checkbox']::before {
+    .to-do-item-checkbox::before {
       border-color: map-get($grey-scale, 300);
     }
-    input[type='text'] {
+    .to-do-item-input {
       color: map-get($grey-scale, 300);
       text-decoration: line-through;
     }
   }
 
   /* text */
-  &[state='text'] {
+  &[state="text"] {
     border-color: map-get($primary, light);
     background: map-get($grey-scale, white);
     box-shadow: 0px 0px 1px 1px rgba(46, 100, 70, 0.25);
 
-    input[type='checkbox']::before {
+    .to-do-item-checkbox::before {
       border-color: map-get($grey-scale, 600);
     }
-    input[type='text'] {
+    .to-do-item-input {
       color: map-get($grey-scale, 600);
     }
   }
 
   /* placeholder */
-  &[state='placeholder'] {
+  &[state="placeholder"] {
     border-color: map-get($primary, light);
     background: map-get($grey-scale, white);
 
-    input[type='checkbox'] {
+    .to-do-item-checkbox {
       display: none;
       &::before {
         display: none;
       }
     }
-    input[type='text'] {
+    .to-do-item-input {
       color: map-get($grey-scale, 600);
       &::placeholder {
         color: map-get($grey-scale, 200);
@@ -125,19 +118,35 @@
     }
   }
 
-  &:hover:not([state='placeholder']) {
+  /* :hover */
+  &:hover:not([state="placeholder"]) {
     border-color: map-get($primary, light);
     background: map-get($primary, light);
     color: map-get($grey-scale, white);
 
-    input[type='checkbox']::before {
+    .to-do-item-checkbox::before {
       border-color: map-get($grey-scale, white);
     }
-    input[type='text'] {
+    .to-do-item-input {
       color: map-get($grey-scale, white);
     }
     .delete-icon {
       color: map-get($grey-scale, white);
     }
+  }
+
+  /* icon */
+  svg {
+    cursor: pointer;
+  }
+  .to-do-item-checked-icon {
+    width: 12px;
+    height: 12px;
+    position: absolute;
+  }
+  .to-do-item-delete-icon {
+    width: 12px;
+    height: 12px;
+    color: map-get($complementary, alarm);
   }
 }

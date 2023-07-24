@@ -1,13 +1,15 @@
+@use "variables" as *;
+
 .btn {
   display: inline-flex;
   border: none;
   cursor: pointer;
-  padding: 8px 16px;
+  padding: 0.5rem 1rem;
   align-items: flex-start;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   color: map-get($grey-scale, white);
-  font-family: 'Inter', 'Noto Sans TC';
-  font-size: 12px;
+  font-family: "Inter", "Noto Sans TC";
+  font-size: 0.75rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -19,7 +21,7 @@
     background: map-get($primary, dark);
   }
 
-  &[mode='disable'] {
+  &[mode="disable"] {
     background: map-get($grey-scale, 200);
   }
 }
