@@ -1,5 +1,5 @@
 <template>
-  <div class="title" :class="titleColor" :icon="hasIcon()">
+  <div class="title" :class="titleColor" :data-icon="!!$slots.icon">
     <slot name="icon"></slot>
 
     <div class="subtitle-1">
@@ -9,10 +9,6 @@
 </template>
 
 <script setup>
-import { useSlots } from 'vue'
-const slots = useSlots()
-const hasIcon = () => !!slots.icon
-
 const props = defineProps({
   color: {
     type: String,
@@ -26,11 +22,11 @@ const titleColor = 'text-' + props.color
 .title {
   display: inline-flex;
 
-  &[icon='true'] {
+  &[data-icon='true'] {
     align-items: center;
     gap: 4px;
   }
-  &[icon='false'] {
+  &[data-icon='false'] {
     align-items: flex-start;
   }
 }
