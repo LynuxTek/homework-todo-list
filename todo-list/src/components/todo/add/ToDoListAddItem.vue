@@ -1,6 +1,7 @@
 <template>
   <div class="row">
-    <BaseCheckbox state="placeholder" @modified="updateContent" />
+    <!-- <BaseCheckbox state="placeholder" @modified="updateContent" /> -->
+    <ToDoListAddItemInput v-model="content" />
     <BaseButton @click="addNewToDo">新增事項</BaseButton>
   </div>
 </template>
@@ -8,23 +9,18 @@
 <script setup>
 import { ref } from 'vue'
 
-import BaseCheckbox from '@/components/ui/BaseCheckbox.vue'
+import ToDoListAddItemInput from '@/components/todo/add/ToDoListAddItemInput.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 
 import { useToDoStore } from '@/stores/todo'
-const store = useToDoStore()
+const { addToDo } = useToDoStore()
 
 // input todo content
 const content = ref('')
 
-// update input content (from BaseCheckbox, will emit 'modified' event @blur)
-const updateContent = (payload) => {
-  content.value = payload
-}
-
 // add new todo to todo-list
 const addNewToDo = () => {
-  store.addToDo({ content: content.value, status: 'pending' })
+  addToDo({ content: content.value, status: 'pending' })
 }
 </script>
 
@@ -41,7 +37,7 @@ const addNewToDo = () => {
   }
 
   /* modify BaseCheckbox width (root el class=checkbox) */
-  .checkbox {
+  .to-do-item {
     flex-grow: 1;
   }
 }
