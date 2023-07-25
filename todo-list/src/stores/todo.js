@@ -1,4 +1,4 @@
-import { ref, computed, watchEffect } from 'vue'
+import { ref, computed, watchEffect, reactive } from 'vue'
 import { defineStore } from 'pinia'
 
 import uniqid from 'uniqid'
@@ -20,7 +20,9 @@ export const useToDoStore = defineStore('todo', () => {
   // ---------------------------------------------------------
 
   // [state] todo list (array)
-  const toDoList = ref(
+  // if not going to change entire object, can use 'reactive' instead of 'ref'
+  // 'ref' <-> 'toValue' usually be utilized in composable methods
+  const toDoList = reactive(
     // JSON.parse(localStorage.getItem(localStorageKeys.TO_DO_LIST_STORAGE_KEY)) ?? []
     JSON.parse(localStorage.getItem(TO_DO_LIST_KEY)) ?? []
   )
@@ -31,11 +33,9 @@ export const useToDoStore = defineStore('todo', () => {
   // ---------------------------------------------------------
 
   // [getters] return pending/completed todos
-  const getToDoList = computed(() => toDoList.value)
-  const getPendingToDos = computed(() => toDoList.value.filter((toDo) => toDo.status === 'pending'))
-  const getCompletedToDos = computed(() =>
-    toDoList.value.filter((toDo) => toDo.status === 'completed')
-  )
+  const getToDoList = computed(() => toDoList)
+  const getPendingToDos = computed(() => toDoList.filter((toDo) => toDo.status === 'pending'))
+  const getCompletedToDos = computed(() => toDoList.filter((toDo) => toDo.status === 'completed'))
   const getPendingToDoCount = computed(() => getPendingToDos.value.length)
   const getCompletedToDoCount = computed(() => getCompletedToDos.value.length)
 
@@ -46,26 +46,26 @@ export const useToDoStore = defineStore('todo', () => {
 
   // [actions] add new todo
   function addToDo(toDo) {
-    toDoList.value.push({ id: uniqid(), content: toDo.content, status: toDo.status })
+    toDoList.push({ id: uniqid(), content: toDo.content, status: toDo.status })
   }
 
   // [actions] delete todo
   function deleteToDo(toDoId) {
-    const idx = toDoList.value.findIndex((toDo) => toDo.id === toDoId)
-    toDoList.value.splice(idx, 1)
+    const idx = toDoList.findIndex((toDo) => toDo.id === toDoId)
+    toDoList.splice(idx, 1)
   }
 
   // [actions] update todo content
   function updateToDoContent(toDo) {
     // condition: 'currToDo === toDo' can reduce access of 'id'
     // but need to confirm their addresses are same, not deepclone or different object
-    const toDoItem = ref(toDoList.value.find((currToDo) => currToDo.id === toDo.id)) // ref to keep it reactive
+    const toDoItem = ref(toDoList.find((currToDo) => currToDo.id === toDo.id)) // ref to keep it reactive
     toDoItem.value.content = toDo.content
   }
 
   // [actions] toggle/set todo status
   const setToDoStatus = (toDo) => {
-    const toDoItem = ref(toDoList.value.find((currToDo) => currToDo.id === toDo.id))
+    const toDoItem = ref(toDoList.find((currToDo) => currToDo.id === toDo.id))
 
     // toggle status from checkbox
     if (toDo.type === 'toggle')
@@ -81,15 +81,15 @@ export const useToDoStore = defineStore('todo', () => {
 
   // [actions] save to localStorage
   // function saveToDoList() {
-  //   // localStorage.setItem(localStorageKeys.TO_DO_LIST_STORAGE_KEY, JSON.stringify(toDoList.value))
-  //   localStorage.setItem(TO_DO_LIST_KEY, JSON.stringify(toDoList.value))
+  //   // localStorage.setItem(localStorageKeys.TO_DO_LIST_STORAGE_KEY, JSON.stringify(toDoList))
+  //   localStorage.setItem(TO_DO_LIST_KEY, JSON.stringify(toDoList))
   // }
 
   // ---------------------------------------------------------
 
   // [actions] watch 'toDoList' to save to localStorage
   watchEffect(() => {
-    localStorage.setItem(TO_DO_LIST_KEY, JSON.stringify(toDoList.value))
+    localStorage.setItem(TO_DO_LIST_KEY, JSON.stringify(toDoList))
   })
 
   // ---------------------------------------------------------

@@ -1,5 +1,0 @@
-const TO_DO_LIST_STORAGE_KEY = 'TO_DO_LIST'
-
-export default {
-  TO_DO_LIST_STORAGE_KEY: TO_DO_LIST_STORAGE_KEY
-}
